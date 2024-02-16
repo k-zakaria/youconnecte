@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::post('/register', [AuthController::class, 'store'])->name('user.register');
+Route::get('/register', [AuthController::class, 'create']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login');
+Route::post('/login', [AuthController::class, 'login']);
+
+
+
+
+Route::get('/', [MessageController:: class, 'index'])->name('post.index');
+Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store');
