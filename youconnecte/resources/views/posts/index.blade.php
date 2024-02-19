@@ -74,7 +74,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Publier un message</div>
+                <div class="card-header">Publier un post</div>
 
                 <div class="card-body">
                     <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
@@ -104,8 +104,8 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <!-- Options -->
-                                        <a class="dropdown-item" href="#">Modifier le message</a>
-                                        <a class="dropdown-item" href="#">Supprimer le message</a>
+                                        <a class="dropdown-item" href="#">Modifier  post</a>
+                                        <a class="dropdown-item" href="#">Supprimer post</a>
                                     </div>
                                 </div>
                                 <h5 class="card-title">{{ $message->user->name }}</h5>
@@ -125,7 +125,7 @@
                                         <button type="submit" class="btn btn-sm btn-danger">Dislike</button>
                                     </form>
                                 </div>
-                                <!-- Zone de commentaire -->
+                              
                                 <div class="mt-3">
                                     <textarea class="form-control" placeholder="Ajouter un commentaire..."></textarea>
                                     <button type="submit" class="btn btn-primary mt-2">Commenter</button>

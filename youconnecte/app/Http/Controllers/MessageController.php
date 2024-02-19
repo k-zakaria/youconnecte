@@ -18,18 +18,18 @@ class MessageController extends Controller
     public function store(Request $request)
     {
 
-        $validatedData = $request->validate([
+        $data = $request->validate([
             'content' => 'required|string|max:255', 
             'media' => 'image|mimes:jpeg,png,jpg,gif|max:2000000',
         ]);
 
         $message = new Message();
         $message->user_id = auth()->user()->id;
-        $message->content = $validatedData['content'];
+        $message->content = $data['content'];
 
 
         if ($request->hasFile('media')) {
-            $mediaPath = $request->file('media')->store('media');
+            $mediaPath = $request->file('media')->store('uploads', 'public');
             $message->media = $mediaPath;
         }
 
