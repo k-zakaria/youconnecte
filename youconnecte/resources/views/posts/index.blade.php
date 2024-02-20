@@ -104,9 +104,13 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <!-- Options -->
-                                        <a class="dropdown-item" href="#">Modifier  post</a>
-                                        <a class="dropdown-item" href="#">Supprimer post</a>
-                                    </div>
+                                        <a href="{{ route('edit.post', ['id' => $message->id]) }}" class="dropdown-item" href="#">Modifier  post</a>
+                                        <form action="{{ route('delete.post', ['id' => $message->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item">Supprimer post</button>
+                                        </form>                                        
+                                        </div>
                                 </div>
                                 <h5 class="card-title">{{ $message->user->name }}</h5>
                                 <p class="card-text">{{ $message->content }}</p>
