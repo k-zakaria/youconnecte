@@ -22,7 +22,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login
 Route::post('/login', [AuthController::class, 'login']);
 
 
-
-
 Route::get('/', [MessageController:: class, 'index'])->name('post.index');
 Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store');
+
+
+Route::post('/like', [MessageController:: class, 'like'])->name('posts.like');
+
