@@ -131,9 +131,12 @@
                                 </div>
                               
                                 <div class="mt-3">
-                                    <textarea class="form-control" placeholder="Ajouter un commentaire..."></textarea>
-                                    <button type="submit" class="btn btn-primary mt-2">Commenter</button>
-                                </div>
+                                <form id="comment-form">
+                                    <textarea class="form-control" id="cmnt" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
+                                    <button type="button" class="btn btn-primary mt-2">commenter</button>
+                                </form>
+                            </div>
+                                
                             </div>
                         </div>
                     @endforeach
@@ -143,7 +146,8 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

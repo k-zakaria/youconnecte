@@ -69,7 +69,7 @@ class MessageController extends Controller
 
     $message = Message::find($id);
     $message->delete();
-  return redirect()->route('post.index')->with('success', 'Post deleted successfully.');
+  return redirect()->route('post.index')->with('success', 'post deleted');
 
   }
 }

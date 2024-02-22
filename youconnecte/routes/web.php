@@ -29,3 +29,7 @@ Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store')
 Route::put('/post/{id}', [MessageController:: class, 'update'])->name('update.post');
 Route::get('/post/{id}/edit', [MessageController:: class, 'edit'])->name('edit.post');
 Route::delete('/post/{id}', [MessageController::class, 'destroy'])->name('delete.post');
+
+
+Route::get('/comments', [CommentController::class, 'index']);
+Route::post('/comments', [CommentController::class, 'store']);
