@@ -56,6 +56,45 @@
 </style>
 
 <body>
+<<<<<<< HEAD
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('post.index') }}">YouConnect</a> 
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link navigation" href="#">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-5 navigation" href="#">Message</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-5 navigation" href="#">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Publier un post</div>
+
+                <div class="card-body">
+                    <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <textarea class="form-control" name="content" placeholder="Exprimez-vous..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" name="media" class="form-control-file">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-primary">Publier</button>
+                    </form>
+                </div>
+=======
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ route('post.index') }}">YouConnect</a>
@@ -77,6 +116,7 @@
                         <a class="nav-link ml-5 navigation" href="#">Log Out</a>
                     </li>
                 </ul>
+>>>>>>> 55f07ad2a27d642de452f2f53242a878a75a0bb3
             </div>
         </div>
     </nav>
@@ -114,9 +154,13 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <!-- Options -->
-                                        <a class="dropdown-item" href="#">Modifier le message</a>
-                                        <a class="dropdown-item" href="#">Supprimer le message</a>
-                                    </div>
+                                        <a href="{{ route('edit.post', ['id' => $message->id]) }}" class="dropdown-item" href="#">Modifier  post</a>
+                                        <form action="{{ route('delete.post', ['id' => $message->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item">Supprimer post</button>
+                                        </form>                                        
+                                        </div>
                                 </div>
                                 <h5 class="card-title">{{ $message->user->name }}</h5>
                                 <p class="card-text">{{ $message->content }}</p>
@@ -133,11 +177,14 @@
 
                                     </form>
                                 </div>
-                                <!-- Zone de commentaire -->
+                              
                                 <div class="mt-3">
-                                    <textarea class="form-control" placeholder="Ajouter un commentaire..."></textarea>
-                                    <button type="submit" class="btn btn-primary mt-2">Commenter</button>
-                                </div>
+                                <form id="comment-form">
+                                    <textarea class="form-control" id="cmnt" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
+                                    <button type="button" class="btn btn-primary mt-2">commenter</button>
+                                </form>
+                            </div>
+                                
                             </div>
                         </div>
                         @endforeach
@@ -146,9 +193,17 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+=======
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+>>>>>>> 55f07ad2a27d642de452f2f53242a878a75a0bb3
 </body>
 
 </html>
