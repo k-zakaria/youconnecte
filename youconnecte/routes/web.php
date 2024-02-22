@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,7 @@ Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store')
 
 
 Route::post('/like', [MessageController:: class, 'like'])->name('posts.like');
+
+// Route::get('/chat', [ChatController:: class, 'chat']);
+
 

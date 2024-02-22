@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use App\Models\Message;
-use Illuminate\Http\JsonResponse;
 
 class MessageController extends Controller
 {
@@ -56,6 +55,8 @@ class MessageController extends Controller
             $like->save();
             return  redirect()->back()->with('success', 'poste publié binaja7');
         }
+
+        
     } else {
         return response()->json(['error' => 'Message not found'], 404);
     }
