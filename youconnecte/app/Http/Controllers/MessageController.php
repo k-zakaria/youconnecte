@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use App\Models\Message;
+use App\Models\Notification;
 
 class MessageController extends Controller
 {
@@ -20,7 +21,7 @@ class MessageController extends Controller
 
 
         $data = $request->validate([
-            'content' => 'required|string|max:255', 
+            'content' => 'required|string|max:255',
         ]);
         $validatedData = $request->validate([
             'content' => 'required|string|max:255',
@@ -41,66 +42,70 @@ class MessageController extends Controller
     }
 
 
-    public function edit($id) {
+    public function edit($id)
+    {
 
 
         $message = Message::find($id);
         return view('posts.edit', compact('message'));
     }
 
-  public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
-    $data = $request->validate([
-        'content' => 'required|string|max:255', 
-        'media' => 'image|mimes:jpeg,png,jpg,gif|max:2000000',
-    ]);
+        $data = $request->validate([
+            'content' => 'required|string|max:255',
+            'media' => 'image|mimes:jpeg,png,jpg,gif|max:2000000',
+        ]);
 
-    $message = Message::find($id);
-    $message->content = $data['content'];
+        $message = Message::find($id);
+        $message->content = $data['content'];
 
-    if ($request->hasFile('media')) {
-        $mediaPath = $request->file('media')->store('uploads', 'public');
-        $message->media = $mediaPath;
+        if ($request->hasFile('media')) {
+            $mediaPath = $request->file('media')->store('uploads', 'public');
+            $message->media = $mediaPath;
+        }
+        $message->save();
+        return redirect()->route('post.index')->with('success', 'post updated');
     }
-    $message->save();
-    return redirect()->route('post.index')->with('success', 'post updated');
 
-  }
+    public function destroy($id)
+    {
 
-  public function destroy($id) {
-
-    $message = Message::find($id);
-    $message->delete();
-  return redirect()->route('post.index')->with('success', 'post deleted');
-
-  }
+        $message = Message::find($id);
+        $message->delete();
+        return redirect()->route('post.index')->with('success', 'post deleted');
+    }
 
 
     public function like()
-{
-    $message = Message::find(request()->input('id'));
-
-    if ($message) {
+    {
+        $message = Message::find(request()->input('id'));
+    
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+    
         $existingLike = Like::where([
             'user_id' => auth()->user()->id,
             'message_id' => $message->id
         ])->first();
-
+    
         if ($existingLike) {
             $existingLike->delete();
-            return  redirect()->back()->with('success', 'poste publié binaja7');
         } else {
             $like = new Like();
             $like->user_id = auth()->user()->id;
             $like->message_id = $message->id;
             $like->save();
-            return  redirect()->back()->with('success', 'poste publié binaja7');
+    
+            // Create a new notification
+            // $notification = new Notification();
+            // $notification->user_id = auth()->user()->id;
+            // $notification->name = $message->id;
+            // $notification->save();
         }
-
-        
-    } else {
-        return response()->json(['error' => 'Message not found'], 404);
+    
+        return redirect()->back()->with('success', 'Post liked');
     }
-}
-
 }
