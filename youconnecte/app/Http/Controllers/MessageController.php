@@ -10,10 +10,10 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $messages = Message::with('user')->latest()->paginate(10);
-
+        $messages = Message::with('user', 'comments')->latest()->get();
+    
         return view('posts.index', compact('messages'));
-    }
+    }    
 
     public function store(Request $request)
     {
