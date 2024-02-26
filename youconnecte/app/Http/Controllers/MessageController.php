@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use App\Models\Message;
-use App\Models\Notification;
+use App\Models\User;
 
 class MessageController extends Controller
 {
     public function index()
     {
         $messages = Message::with('user')->latest()->paginate(10);
+        $users = User::where('id', '!=' , auth()->user()->id)->get();
 
-        return view('posts.index', compact('messages'));
+        return view('posts.index', compact('messages', 'users'));
     }
 
     public function store(Request $request)
@@ -97,15 +98,11 @@ class MessageController extends Controller
             $like = new Like();
             $like->user_id = auth()->user()->id;
             $like->message_id = $message->id;
-            $like->save();
-    
-            // Create a new notification
-            // $notification = new Notification();
-            // $notification->user_id = auth()->user()->id;
-            // $notification->name = $message->id;
-            // $notification->save();
+            $like->save();  
+
         }
     
         return redirect()->back()->with('success', 'Post liked');
     }
+
 }

@@ -28,24 +28,22 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::middleware(['User','admin'])->group(function () {
-    Route::get('/', [MessageController:: class, 'index'])->name('post.index');
-    Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store');
-    Route::put('/post/{id}', [MessageController:: class, 'update'])->name('update.post');
-    Route::get('/post/{id}/edit', [MessageController:: class, 'edit'])->name('edit.post');
+Route::middleware(['User'])->group(function () {
+    Route::get('/', [MessageController::class, 'index'])->name('post.index');
+    Route::post('/posts', [MessageController::class, 'store'])->name('posts.store');
+    Route::put('/post/{id}', [MessageController::class, 'update'])->name('update.post');
+    Route::get('/post/{id}/edit', [MessageController::class, 'edit'])->name('edit.post');
     Route::delete('/post/{id}', [MessageController::class, 'destroy'])->name('delete.post');
-    
+
     Route::get('/comments', [CommentController::class, 'index']);
     Route::post('/comments', [CommentController::class, 'store']);
-    Route::post('/like', [MessageController:: class, 'like'])->name('posts.like');
-    
+    Route::post('/like', [MessageController::class, 'like'])->name('posts.like');
+
+    Route::delete('/delete-account/{user}', [AuthController::class, 'deleteMyAccount'])->name('posts.delete-account');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('user.logout');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('user.profile');
+
+    Route::post('/subscribe/{user}', [AuthController::class, 'subscribe'])->name('user.subscribe');
+    Route::delete('/unsubscribe/{user}', [AuthController::class, 'unsubscribe'])->name('user.unsubscribe');
+    // Route::get('/user', [MessageController::class, 'showAllUsers'])->name('users.index');
 });
-Route::middleware(['Admin'])->group(function () {
-
-});
-
-
-// Route::get('/chat', [ChatController:: class, 'chat']);
-
-
-

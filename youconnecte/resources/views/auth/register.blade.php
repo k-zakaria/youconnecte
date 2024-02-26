@@ -1,43 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Register</title>
-</head>
-<style>
-    .navbar-brand {
-    color: #339898;
-    font-weight: bold;
-}
+@extends('vendor.chatify.layouts.navbar')
+@section('content')
 
-.navbar-nav {
-    margin-left: auto;
-}
-</style>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-		<div class="container">
-            <a class="navbar-brand" href="{{ route('post.index') }}" style="color: #141f38;"><span style="color: #023071;" class="nav-brand-two">You</span>Connecte</a>             <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
-            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					
-                    <li class="nav-item">
-						<a class="nav-link ml-5 navigation" href="{{ route('user.login') }}">Login</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
-    <section class="vh-100" style="background-color: #eee;">
+    <section class="vh-100 mt-5" style="background-color: #eee;">
     <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-lg-12 col-xl-11">
@@ -54,7 +18,7 @@
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
-                                                <label class="form-label" for="form3Example1c">Your Name</label>
+                                                <label class="form-label" for="form3Example1c">Full Name</label>
                                                 <input type="text" id="form3Example1c" class="form-control"
                                                     name="name" value="{{ old('name') }}" />
                                                 @error('name')
@@ -107,6 +71,4 @@
             </div>
         </div>
     </section>
-</body>
-
-</html>
+@endsection

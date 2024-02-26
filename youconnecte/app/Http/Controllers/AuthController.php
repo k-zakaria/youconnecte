@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -15,7 +16,7 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-  
+
     public function store(Request $request)
     {
         $request->validate([
@@ -23,7 +24,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
-    
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -31,7 +32,7 @@ class AuthController extends Controller
         ]);
         return redirect()->route('user.login');
     }
-    
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -55,12 +56,49 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-
-
         return redirect()->route('user.login');
     }
 
+
+    public function deleteMyAccount($id)
+    {
+
+        if ($id != Auth::id()) {
+            abort(403);
+        }
+
+        $user = User::findOrFail($id);
+        $success = $user->delete();
+
+        if ($success) {
+            return view('auth.login');
+        } else {
+            return back()->withError('Failed to deactivate account.');
+        }
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('posts.profile', compact('user'));
+    }
+
+    public function subscribe(Request $request, $id)
+    {
+        
+        $request->user()->subscriptions()->toggle([$id,$request->id]);
+        return back();
+    }
+
+    public function unsubscribe(Request $request,$id)
+    {
+        $request->user()->subscriptions()->detach([$id,$request->id]);
+        return back();
+    }
+
+    
 }
