@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ Route::get('/register', [AuthController::class, 'create']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login');
 Route::post('/login', [AuthController::class, 'login']);
 
+// Route::middleware(['auth'])->group(function () {
+//     });
+
 
 Route::get('/', [MessageController:: class, 'index'])->name('post.index');
 Route::post('/posts', [MessageController:: class, 'store'])->name('posts.store');
@@ -31,13 +35,13 @@ Route::get('/post/{id}/edit', [MessageController:: class, 'edit'])->name('edit.p
 Route::delete('/post/{id}', [MessageController::class, 'destroy'])->name('delete.post');
 
 
-Route::get('/comments', [CommentController::class, 'index']);
-Route::post('/comments', [CommentController::class, 'store']);
+Route::post('/comments/{message}', [CommentController:: class,'store'])->name('comments.store');
 
 
 Route::post('/like', [MessageController:: class, 'like'])->name('posts.like');
 
 // Route::get('/chat', [ChatController:: class, 'chat']);
 
-
+Route::get('/search', [AuthController::class, 'showSearch'])->name('search');
+Route::get('/search/users', [AuthController:: class, 'searchUsers'])->name('search.users');
 

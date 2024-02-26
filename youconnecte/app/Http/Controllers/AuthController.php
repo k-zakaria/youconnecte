@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-  
+
     public function store(Request $request)
     {
         $request->validate([
@@ -23,7 +23,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
-    
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -31,7 +31,7 @@ class AuthController extends Controller
         ]);
         return redirect()->route('user.login');
     }
-    
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -55,12 +55,21 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
-    {
-        Auth::logout();
 
 
-        return redirect()->route('user.login');
+    public function showSearch() {
+        return view('posts.search');
     }
 
+    public function searchUsers(Request $request)
+{
+    $keyword = $request->input('title_s');
+
+    if ($keyword === '') {
+        $users = User::all();
+    } else {
+        $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+    }
+    return view('posts.searchres')->with(['users' => $users]);
+}
 }

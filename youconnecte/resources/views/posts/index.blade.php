@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fil d'actualités</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="{{ asset('js/like.js') }}" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- icon font awesome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <style>
     .navbar-brand {
@@ -53,54 +55,21 @@
         border-radius: 20px;
         margin-right: 10px;
     }
+    #namecmnt{
+        font-weight: bold;
+    }
 </style>
 
 <body>
-<<<<<<< HEAD
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('post.index') }}">YouConnect</a> 
-        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link navigation" href="#">Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ml-5 navigation" href="#">Message</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ml-5 navigation" href="#">Log Out</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Publier un post</div>
-
-                <div class="card-body">
-                    <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <textarea class="form-control" name="content" placeholder="Exprimez-vous..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" name="media" class="form-control-file">
-                        </div>
-                        <button type="submit" name="submit" class="btn btn-primary">Publier</button>
-                    </form>
-                </div>
-=======
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ route('post.index') }}">YouConnect</a>
             <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search') }}">Search</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link navigation" href="#">Profil</a>
                     </li>
@@ -113,10 +82,10 @@
                         <a class="nav-link ml-5 navigation" href="chatify">Message</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ml-5 navigation" href="#">Log Out</a>
+                        <a class="nav-link ml-5 navigation" href="{{ route('user.logout') }}">Log Out</a>
                     </li>
                 </ul>
->>>>>>> 55f07ad2a27d642de452f2f53242a878a75a0bb3
+
             </div>
         </div>
     </nav>
@@ -124,7 +93,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Publier un message</div>
+                    <div class="card-header">Publier un post</div>
 
                     <div class="card-body">
                         <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
@@ -150,7 +119,9 @@
                                 <div class="dropdown dropleft">
                                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <!-- Trois points -->
-                                        ...
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path d="M9 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-2-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 7a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                                        </svg>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <!-- Options -->
@@ -159,8 +130,8 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item">Supprimer post</button>
-                                        </form>                                        
-                                        </div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <h5 class="card-title">{{ $message->user->name }}</h5>
                                 <p class="card-text">{{ $message->content }}</p>
@@ -176,16 +147,32 @@
                                             </svg></button>
 
                                     </form>
+                                    <div class="space-y-8">
+                                        @foreach($message->comments as $comment)
+                                        <div class="flex bg-slate-50 p-6 rounded-lg">
+                                            <div class="ml-4 flex flex-col">
+                                                <div class="flex flex-col sm:flex-row sm:items-center">
+                                                    <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400 " >{{$comment->created_at->diffForHumans()}}</time>
+                                                </div>
+                                                <p id ="namecmnt" >{{ $comment->user->name }}</p>
+                                                <p class="mt-4 text-slate-800 sm:leading-loose">{{ $comment->content }}</p>
+
+
+
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                    </div>
                                 </div>
-                              
-                                <div class="mt-3">
-                                <form id="comment-form">
-                                    <textarea class="form-control" id="cmnt" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
-                                    <button type="button" class="btn btn-primary mt-2">commenter</button>
-                                </form>
-                            </div>
-                                
-                            </div>
+                                </div>
+                                    <div class="mt-3">
+                                        <form action="{{ route('comments.store', ['message' => $message->id]) }}" method="post">
+                                            @csrf
+                                            <textarea class="form-control" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
+                                            <button type="submit" class="btn btn-primary mt-2">Commenter</button>
+                                        </form>
+                                    </div>
                         </div>
                         @endforeach
                     </div>
@@ -193,17 +180,41 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
+
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var searchTitleInput = document.getElementById("search_title");
+        var searchResultContainer = document.getElementById("searchResults");
+
+        searchTitleInput.addEventListener("keyup", function () {
+            var title = searchTitleInput.value;
+
+            $.ajax({
+                type: 'GET',
+                url: '/searchs/',
+                data: { title_s: title },
+                success: function (data) {
+                    searchResultContainer.innerHTML = data;
+                },
+                error: function (error) {
+                    console.error("Error during search:", error);
+                }
+            });
+        });
+    });
+
+    </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-=======
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
->>>>>>> 55f07ad2a27d642de452f2f53242a878a75a0bb3
 </body>
 
 </html>
