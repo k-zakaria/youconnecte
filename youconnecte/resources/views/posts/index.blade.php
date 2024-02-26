@@ -1,25 +1,11 @@
 @extends('vendor.chatify.layouts.navbar')
 @section('content')
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Publier un message</div>
-
-                <div class="card-body">
-                    <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <textarea class="form-control" name="content" placeholder="Exprimez-vous..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" name="media" class="form-control-file">
-                        </div>
-                        <button type="submit" name="submit" class="btn btn-primary">Publier</button>
-                    </form>
-                </div>
-            </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Publier un post</div>
 
             <div class="row">
                 @foreach($users as $user)
@@ -64,10 +50,55 @@
                                     <!-- Options -->
                                     <a href="{{ route('edit.post', ['id' => $message->id]) }}" class="dropdown-item" href="#">Modifier post</a>
                                     <form action="{{ route('delete.post', ['id' => $message->id]) }}" method="POST">
+                    <div class="card-body">
+                        @foreach ($messages as $message)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="dropdown dropleft">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <!-- Trois points -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path d="M9 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-2-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 7a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <!-- Options -->
+                                        <a href="{{ route('edit.post', ['id' => $message->id]) }}" class="dropdown-item" href="#">Modifier  post</a>
+                                        <form action="{{ route('delete.post', ['id' => $message->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item">Supprimer post</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <h5 class="card-title">{{ $message->user->name }}</h5>
+                                <p class="card-text">{{ $message->content }}</p>
+                                @if($message->media)
+                                <img src="{{ asset('storage/' . $message->media) }}" alt="Media" class="img-fluid">
+                                @endif
+                                <div class="mt-3">
+                                    <form action="{{ route('posts.like') }}" method="post" id="form-js" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item">Supprimer post</button>
                                     </form>
+                                    <div class="space-y-8">
+                                        @foreach($message->comments as $comment)
+                                        <div class="flex bg-slate-50 p-6 rounded-lg">
+                                            <div class="ml-4 flex flex-col">
+                                                <div class="flex flex-col sm:flex-row sm:items-center">
+                                                    <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400 " >{{$comment->created_at->diffForHumans()}}</time>
+                                                </div>
+                                                <p id ="namecmnt" >{{ $comment->user->name }}</p>
+                                                <p class="mt-4 text-slate-800 sm:leading-loose">{{ $comment->content }}</p>
+
+
+
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                    </div>
                                 </div>
                             </div>
                             @if ($message && $message->user)
@@ -94,6 +125,14 @@
                                 </form>
                             </div>
 
+                                </div>
+                                    <div class="mt-3">
+                                        <form action="{{ route('comments.store', ['message' => $message->id]) }}" method="post">
+                                            @csrf
+                                            <textarea class="form-control" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
+                                            <button type="submit" class="btn btn-primary mt-2">Commenter</button>
+                                        </form>
+                                    </div>
                         </div>
                     </div>
                     @endforeach
@@ -109,3 +148,5 @@
 
 
 @endsection
+
+</div>

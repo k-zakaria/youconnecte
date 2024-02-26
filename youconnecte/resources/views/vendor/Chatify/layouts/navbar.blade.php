@@ -10,10 +10,9 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>Login</title>
-    
+
 </head>
 <style>
-    
     .navbar-brand {
         color: #339898;
         font-weight: bold;
@@ -57,6 +56,10 @@
         border-radius: 20px;
         margin-right: 10px;
     }
+
+    #namecmnt {
+        font-weight: bold;
+    }
 </style>
 
 <body>
@@ -65,6 +68,9 @@
             <a class="navbar-brand" href="{{ route('post.index') }}" style="color: #141f38;"><span style="color: #023071;" class="nav-brand-two">You</span>Connecte</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search') }}">Search</a>
+                    </li>
                     @if(Auth::check())
                     <li class="nav-item  ml-3">
                         <div class="dropdown">
@@ -124,7 +130,7 @@
                     <li class="nav-item">
                         <a class="nav-link ml-5 navigation" href="{{ route('user.register') }}">Register</a>
                     </li>
-                
+
                     <li class="nav-item">
                         <a class="nav-link ml-5 navigation" href="{{ route('user.login') }}">Login</a>
                     </li>
@@ -140,6 +146,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    var searchTitleInput = document.getElementById("search_title");
+    var searchResultContainer = document.getElementById("searchResults");
+
+    searchTitleInput.addEventListener("keyup", function () {
+        var title = searchTitleInput.value;
+
+        $.ajax({
+            type: 'GET',
+            url: '/searchs/',
+            data: { title_s: title },
+            success: function (data) {
+                searchResultContainer.innerHTML = data;
+            },
+            error: function (error) {
+                console.error("Error during search:", error);
+            }
+        });
+    });
+});
+
+</script>
 
 </body>
 

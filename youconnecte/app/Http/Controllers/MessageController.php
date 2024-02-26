@@ -13,8 +13,9 @@ class MessageController extends Controller
     {
         $messages = Message::with('user')->latest()->paginate(10);
         $users = User::where('id', '!=' , auth()->user()->id)->get();
+        $messages = Message::with('user', 'comments')->latest()->get();
 
-        return view('posts.index', compact('messages', 'users'));
+        return view('posts.index', compact('messages', 'users', 'messages'));
     }
 
     public function store(Request $request)

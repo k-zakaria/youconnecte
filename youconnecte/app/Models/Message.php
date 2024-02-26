@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'content',
         'media',
@@ -24,5 +23,9 @@ class Message extends Model
     {
         return $this->hasMany(Like::class);
     }
-
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

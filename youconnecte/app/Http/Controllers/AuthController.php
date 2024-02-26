@@ -89,16 +89,34 @@ class AuthController extends Controller
 
     public function subscribe(Request $request, $id)
     {
-        
-        $request->user()->subscriptions()->toggle([$id,$request->id]);
+
+        $request->user()->subscriptions()->toggle([$id, $request->id]);
         return back();
     }
 
-    public function unsubscribe(Request $request,$id)
+    public function unsubscribe(Request $request, $id)
     {
-        $request->user()->subscriptions()->detach([$id,$request->id]);
+        $request->user()->subscriptions()->detach([$id, $request->id]);
         return back();
     }
 
-    
+
+
+
+    public function showSearch()
+    {
+        return view('posts.search');
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $keyword = $request->input('title_s');
+
+        if ($keyword === '') {
+            $users = User::all();
+        } else {
+            $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+        }
+        return view('posts.searchres')->with(['users' => $users]);
+    }
 }
