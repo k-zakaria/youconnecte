@@ -82,7 +82,7 @@
                         <a class="nav-link ml-5 navigation" href="chatify">Message</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ml-5 navigation" href="{{ route('user.logout') }}">Log Out</a>
+                        <a class="nav-link ml-5 navigation" href="">Log Out</a>
                     </li>
                 </ul>
 
