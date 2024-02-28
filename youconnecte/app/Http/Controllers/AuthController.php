@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+
 class AuthController extends Controller
 {
 
@@ -55,21 +56,67 @@ class AuthController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('user.login');
+    }
 
 
-    public function showSearch() {
+    public function deleteMyAccount($id)
+    {
+
+        if ($id != Auth::id()) {
+            abort(403);
+        }
+
+        $user = User::findOrFail($id);
+        $success = $user->delete();
+
+        if ($success) {
+            return view('auth.login');
+        } else {
+            return back()->withError('Failed to deactivate account.');
+        }
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('posts.profile', compact('user'));
+    }
+
+    public function subscribe(Request $request, $id)
+    {
+
+        $request->user()->subscriptions()->toggle([$id, $request->id]);
+        return back();
+    }
+
+    public function unsubscribe(Request $request, $id)
+    {
+        $request->user()->subscriptions()->detach([$id, $request->id]);
+        return back();
+    }
+
+
+
+
+    public function showSearch()
+    {
         return view('posts.search');
     }
 
     public function searchUsers(Request $request)
-{
-    $keyword = $request->input('title_s');
+    {
+        $keyword = $request->input('title_s');
 
-    if ($keyword === '') {
-        $users = User::all();
-    } else {
-        $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+        if ($keyword === '') {
+            $users = User::all();
+        } else {
+            $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+        }
+        return view('posts.searchres')->with(['users' => $users]);
     }
-    return view('posts.searchres')->with(['users' => $users]);
-}
 }
