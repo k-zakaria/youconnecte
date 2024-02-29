@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use App\Repository\MessageRepository;
+use App\Services\MessageService;
+use App\Repository\MessageRepositoryInterface;
+use App\Services\MessageServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
+        $this->app->bind(MessageServiceInterface::class, MessageService::class);
     }
 
     /**

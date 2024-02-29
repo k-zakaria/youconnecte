@@ -12,13 +12,13 @@ class CommentController extends Controller
         $request->validate([
             'commentaire' => 'required|string|max:255',
         ]);
-
-        $comment = new Comment();
-        $comment->user_id = auth()->user()->id;
-        $comment->message_id = $messageId;
-        $comment->content = $request->input('commentaire');
-        $comment->save();
+        $message = Message::findOrFail($messageId);
+        $comment = $message->comments()->create([
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('commentaire'),
+        ]);
 
         return redirect()->back()->with('success', 'comment added');
     }
+
 }

@@ -78,10 +78,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                                 </svg>
-                                {{ $messages->sum(function ($message) {
-                                    return $message->likes->count();
-                                }) 
-                            }}
+
                             </a>
                             <ul class="dropdown-menu dropdown-menu-center  notify-drop" style="width: 40vh;" aria-labelledby="notificationsDropdown">
                                 @foreach($messages as $message)
@@ -146,32 +143,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
 
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-    var searchTitleInput = document.getElementById("search_title");
-    var searchResultContainer = document.getElementById("searchResults");
-
-    searchTitleInput.addEventListener("keyup", function () {
-        var title = searchTitleInput.value;
-
-        $.ajax({
-            type: 'GET',
-            url: '/searchs/',
-            data: { title_s: title },
-            success: function (data) {
-                searchResultContainer.innerHTML = data;
-            },
-            error: function (error) {
-                console.error("Error during search:", error);
-            }
-        });
-    });
-});
-
-</script>
 
 </body>
 
