@@ -20,11 +20,10 @@ class MessageController extends Controller
 
     public function index()
     {
-        $messages = Message::with('user')->latest()->get();
-        $users = User::where('id', '!=' , auth()->user()->id)->get();
         $messages = Message::with('user', 'comments')->latest()->get();
+        $users = User::where('id', '!=' , auth()->user()->id)->get();
 
-        return view('posts.index', compact('messages', 'users', 'messages'));
+       return view('posts.index', compact('users', 'messages'));
     }
 
     public function store(Request $request)

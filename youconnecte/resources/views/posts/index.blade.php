@@ -51,15 +51,14 @@
                 </div>
             </div>
         </div>
-
-
-
+    
         <div class="col-md-8  ">
             <div class="card-header">Fil d'actualité</div>
             <div class="card-body ">
                 @foreach ($messages as $message)
                 <div class="card mb-3">
                     <div class="card-body">
+                        @if ($message->user_id == auth()->user()->id)
                         <div class="dropdown dropleft">
                             <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <!-- Trois points -->
@@ -77,6 +76,8 @@
                                 </form>
                             </div>
                         </div>
+                    @endif
+
                         @if ($message && $message->user)
                         <h5 class="card-title">{{ $message->user->name }}</h5>
                         @endif
@@ -99,13 +100,18 @@
                             <div class="flex bg-slate-50 p-6 rounded-lg">
                                 <div class="ml-4 flex flex-col">
                                     <div class="flex flex-col sm:flex-row sm:items-center">
-                                        <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400 ">{{$comment->created_at->diffForHumans()}}</time>
+                                        <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400">{{$comment->created_at->diffForHumans()}}</time>
                                     </div>
-                                    <p id="namecmnt">{{ $comment->user->name }}</p>
+                                    @if ($comment->user)
+                                        <p id="namecmnt">{{ $comment->user->name }}</p>
+                                    @else
+                                        <p id="namecmnt">banta</p>
+                                    @endif
                                     <p class="mt-4 text-slate-800 sm:leading-loose">{{ $comment->content }}</p>
                                 </div>
                             </div>
-                            @endforeach
+                        @endforeach
+
                         </div>
                         <!-- Formulaire pour ajouter un commentaire -->
                         <div class="mt-3">

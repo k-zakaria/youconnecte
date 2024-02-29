@@ -81,7 +81,7 @@
 
                             </a>
                             <ul class="dropdown-menu dropdown-menu-center  notify-drop" style="width: 40vh;" aria-labelledby="notificationsDropdown">
-                                @foreach($messages as $message)
+                                @foreach($message as $message)
                                 @php
                                 $likedByUser = false;
                                 foreach($message->likes as $like) {

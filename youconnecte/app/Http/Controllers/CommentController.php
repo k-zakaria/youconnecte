@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -12,13 +12,13 @@ class CommentController extends Controller
         $request->validate([
             'commentaire' => 'required|string|max:255',
         ]);
-        $message = Message::findOrFail($messageId);
-        $comment = $message->comments()->create([
+
+        $comment = Comment::create([
+            'message_id' => $messageId,
             'user_id' => auth()->user()->id,
             'content' => $request->input('commentaire'),
         ]);
 
-        return redirect()->back()->with('success', 'comment added');
+        return redirect()->back()->with('success', 'Comment added successfully');
     }
-
 }
